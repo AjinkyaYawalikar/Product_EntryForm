@@ -1,0 +1,258 @@
+﻿
+@model Product_Entry_Demo.Models.Product_Entry
+@{
+    ViewBag.Title = "Add_Product_Entry";
+
+    List<SelectListItem> lstColorLst = new List<SelectListItem>();
+
+    foreach (var item in ViewBag.ColorList)
+    {
+        lstColorLst.Add(new SelectListItem() { Text = item });
+    }
+
+}
+
+@*<script src="~/scripts/SweetAlert/jquery-1.10.2.js"></script>
+    <link href="~/scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+    <script src="~/scripts/SweetAlert/sweetalert.js"></script>
+    <script>
+
+        @if (TempData["UsersaveUpdate"] != null)
+        {
+             <text>
+    $(window).load(function () {
+        $(document).ready(function () {
+            sweetAlert({ title: "Message", text: "@TempData["UsersaveUpdate"]", type: "success" });
+        });
+    });
+    </text>
+
+
+        }
+
+    </script>
+    <script type="text/javascript">
+        @if (TempData["UserEmailExist"] != null)
+        {
+           <text>
+    $(window).load(function () {
+        $(document).ready(function () {
+            sweetAlert({ title: "Message", text: "@TempData["UserEmailExist"]", type: "error" });
+        });
+    });
+    </text>
+
+        }
+    </script>
+    <script type="text/javascript">
+        @if (TempData["UserExist"] != null)
+        {
+           <text>
+    $(window).load(function () {
+        $(document).ready(function () {
+            sweetAlert({ title: "Message", text: "@TempData["UserExist"]", type: "error" });
+        });
+    });
+    </text>
+
+        }
+    </script>*@
+<div class="row">
+    <div class="col-sm-9">
+
+        @using (Html.BeginForm("Add_Product_Entry", "Product_Entry", FormMethod.Post, new
+        {
+            enctype = "multipart/form-data",
+            @id = "formproductEntry"
+
+        }))
+        {
+            <div class="panel panel-body" style="width:130%;">
+                <div class="panel-body" style="width:100%;">
+                    <div class="box box-primary">
+                        <div class="col-sm-12" style="background-color:white">
+                            <div class="form-group">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-5">
+                                    @Html.HiddenFor(m => m.ID, new { @id = "user_id", @class = "form-control" })
+                                    <label class="control-label">Name <span class="asterisk">*</span> </label>
+                                    @Html.TextBoxFor(m => m.Name, new { placeholder = "Name", @class = "form-control LoginText" })
+                                    <p id="p1" style="color: #B94A48"></p>
+                                </div>
+                                <div class="col-sm-5">
+                                    <label class="control-label">Price <span class="asterisk">*</span> </label>
+                                    @Html.TextBoxFor(m => m.Price, new {@type= "number", placeholder = "Price", @class = "form-control LoginText" })
+                                    <p id="p2" style="color: #B94A48"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="background-color:white">
+                            <div class="form-group">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-5">
+                                    <label class="control-label">Quantity<span class="asterisk">*</span> </label>
+                                    @Html.TextBoxFor(m => m.Quantity, new { @type = "number", placeholder = "Quantity", @class = "form-control LoginText" })
+                                    <p id="p3" style="color: #B94A48"></p>
+                                </div>
+                                <div class="col-sm-5">
+                                    <label class="control-label">State<span class="asterisk">*</span> </label>
+                                    @Html.DropDownListFor(m => m.Color, lstColorLst, "Select Color", new { @id = "Color", @name = "Color", @class = "form-control LoginText" })
+                                    <p id="p4" style="color: #B94A48"></p>
+                                </div>
+                            </div>
+                        </div><!-- col-sm-6 -->
+                        <div class="col-sm-12" style="background-color:white">
+                            <div class="form-group">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-5">
+                                    <label class="control-label">Purchase Date<span class="asterisk">*</span> </label>
+                                    @*<div class="input-group date">*@
+                                        @Html.TextBoxFor(m => m.Purchase_Date, new { @autocomplete = "off", @placeholder = "dd/mm/yyyy", @name = "Purchase_Date", @id = "Purchase_Date" , @class = "form-control LoginText" })
+
+                                    @*</div>*@
+                                </div>
+
+                                <div class="col-sm-5">
+                                    <label class="control-label">Expiry Date<span class="asterisk" id="Expiry_Dates">*</span> </label>
+                                    @*<div class="input-group date">*@
+                                        @Html.TextBoxFor(m => m.Expiry_Date, new { @autocomplete = "off", @placeholder = "dd/mm/yyyy", @name = "Expiry_Date", @id = "Expiry_Date", @class = "form-control LoginText" })
+
+                                    @*</div>*@
+                                </div>
+
+                            </div>
+                        </div><!-- col-sm-6 -->
+
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a class="btn btn-info" id="btn_back" href="/Product_Entry/GetAllProduct_Entry" name="btn_back">Back</a>
+                                    <input type="submit" value="@ViewBag.ButtonName" name="BtnSave" class="btn btn-rounded btn-success mb-3" style="float: right;">
+                                    <button type="reset" class="btn btn-white"><i class="fa fa-rotate-right"></i> Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section scripts{
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <script>
+
+        $("#Purchase_Date").datepicker(
+            {
+                format: "dd/mm/yyyy",
+                todayHighlight: true,
+                autoclose: true,
+            });
+        $("#Expiry_Date").datepicker(
+            {
+                format: "dd/mm/yyyy",
+                todayHighlight: true,
+                autoclose: true,
+                startDate: new Date()
+            });
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/additional-methods.min.js"></script>
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            $("#formproductEntry").validate({
+                // Specify validation rules
+                rules: {
+                    Name: {
+
+                        required: true,
+
+                    },
+                    Price: {
+
+                        required: true,
+
+                    },
+                    Quantity: {
+                        required: true,
+
+                    },
+                    IsIGSTApplicable: {
+
+                        required: true,
+
+                    },
+
+                    Purchase_Date: {
+
+                        required: true,
+
+                    },
+                    Expiry_Date: {
+
+                        required: true,
+
+                    },
+                    Color: {
+
+                        required: true
+                    },
+
+                },
+                // Specify validation error messages
+                messages: {
+                    Name: {
+
+                        required: "<span class='text-danger'>Name Required.</span>",
+
+                    },
+                    Price: {
+
+                        required: "<span class='text-danger'>Price Required.</span>",
+
+                    },
+                    Quantity: {
+
+                        required: "<span class='text-danger'>Quantity Required.</span>"
+                    },
+                    IsIGSTApplicable: {
+
+                        required: "<span class='text-danger'>Is IGST Applicable Required.</span>",
+
+                    },
+                    Purchase_Date: {
+
+                        required: "<span class='text-danger'>Purchase Date Required.</span>",
+
+                    },
+                    Expiry_Date: {
+
+                        required: "<span class='text-danger'>Expiry Date Required.</span>",
+
+                    },
+                    Color: {
+
+                        required: "<span class='text-danger'>Color Required.</span>",
+
+                    },
+                },
+                // Make sure the form is submitted to the destination defined
+                // in the "action" attribute of the form when valid
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
+
+            //$('.text-danger').addClass("text-danger");
+
+        });
+
+    </script>
+}

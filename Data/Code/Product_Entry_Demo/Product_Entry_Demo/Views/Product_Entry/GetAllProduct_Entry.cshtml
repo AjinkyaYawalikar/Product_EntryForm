@@ -1,0 +1,149 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "GetAllProduct_Entry";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<div class="row">
+    <div class="col-lg-12">
+        <a class="btn btn-success" href="/Product_Entry/Add_Product_Entry">
+            <i class="fa fa-plus-square"></i>
+            Add New
+        </a>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="form-horizontal">
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <table id="ProductEntryTbl" class="table table-bordered table-hover" style="width:100%;white-space: nowrap;">
+                                <thead>
+                                    <tr>
+                                        <th>Sr.No.</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Is GST Applicable</th>
+                                        <th>Purchase Date</th>
+                                        <th>Expiry Date</th>
+                                        <th>Color</th>
+                                    </tr>
+                                </thead>
+                                @*@if (ViewBag.ProductDetails != null)
+                                    {
+                                        foreach (var items in ViewBag.ProductDetails)
+                                        {
+                                            <tbody>
+                                                <tr>
+                                                    <td>@items.ID</td>
+                                                    <td>@items.Name</td>
+                                                    <td>@items.Price</td>
+                                                    <td>@items.Quantity</td>
+                                                    <td>@items.IsIGSTApplicable</td>
+                                                    <td>@items.Purchase_Date</td>
+                                                    <td>@items.Expiry_Date</td>
+                                                    <td>@items.Color</td>
+                                                </tr>
+                                            </tbody>
+                                        }
+                                    }*@
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+@section scripts{
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.4/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.4/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.4/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.4/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+
+    <script src="//bartaz.github.io/sandbox.js/jquery.highlight.js"></script>
+    <script src="//cdn.datatables.net/plug-ins/1.10.9/features/searchHighlight/dataTables.searchHighlight.min.js"></script>
+    @*<link href="//cdn.datatables.net/plug-ins/1.10.9/features/searchHighlight/dataTables.searchHighlight.css" rel="stylesheet" type="text/css" />*@
+
+    <script>
+        $(document).ready(function () {
+
+            var t = $("#ProductEntryTbl").DataTable({
+
+                "ajax": {
+                    "url": '/Product_Entry/AllProduct_Entry',
+                    "type": "GET",
+                    "datatype": "json",
+                },
+                "columns": [
+                    { "data": "ID", "autoWidth": true },
+                    { "data": "Name", "autoWidth": true },
+                    { "data": "Price", "autoWidth": true },
+                    { "data": "Quantity", "autoWidth": true },
+                    { "data": "IsIGSTApplicable", "autoWidth": true },
+                    { "data": "Purchase_Date", "autoWidth": true },
+                    { "data": "Expiry_Date", "autoWidth": true },
+                    { "data": "Color", "autoWidth": true },
+
+                ],
+                "dom": "Bflrtip",
+                "buttons": [
+                    {
+
+                        extend: 'copy', className: 'btn bg-blue'
+
+                    },
+                    {
+                        extend: 'excel', className: 'btn bg-orange'
+
+
+                    },
+                    {
+                        extend: 'csv', className: 'btn btn-info'
+
+
+                    },
+                    {
+                        extend: 'pdf', className: 'btn btn-success',
+                        extend: 'pdfHtml5'
+
+                    },
+
+                    {
+                        extend: 'print', className: 'btn bg-red'
+                    }
+
+                ],
+                alphabetSearch: {
+                    column: 1
+                },
+                responsive: true,
+                "order": [[0, 'desc']],
+                "scrollX": true,
+                searchHighlight: true
+            });
+            t.on('order.dt search.dt', function () {
+                t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+        });</script>
+}
